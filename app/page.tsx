@@ -1,12 +1,16 @@
+"use client";
+
+import { useState } from "react";
+
 const sidebarItems = [
-  "Overview",
-  "Water Monitoring",
-  "Leak Detection Map",
-  "Carbon Emissions",
-  "AI Optimization",
-  "Wastewater Marketplace",
-  "Reports",
-  "Settings",
+  { label: "Overview", href: "#overview" },
+  { label: "Water Monitoring", href: "#water-monitoring" },
+  { label: "Leak Detection Map", href: "#leak-detection-map" },
+  { label: "Carbon Emissions", href: "#carbon-emissions" },
+  { label: "AI Optimization", href: "#ai-optimization" },
+  { label: "Wastewater Marketplace", href: "#wastewater-marketplace" },
+  { label: "Reports", href: "#reports" },
+  // { label: "Settings", href: "#settings" },
 ];
 
 const kpiData = [
@@ -38,22 +42,26 @@ const marketplace = {
 
 function Sidebar() {
   return (
-    <aside className="hidden md:flex md:w-72 flex-col gap-4 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+    <aside className="hidden md:flex md:w-64 flex-col gap-4 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm sticky top-4 self-start overflow-auto">
       <div className="mb-3">
         <div className="flex items-center gap-2 text-slate-900">
           <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500" />
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] font-semibold text-slate-400">Climate SaaS</p>
+            <p className="text-xs uppercase tracking-[0.2em] font-semibold text-slate-400">CCD ~ Team Kuch Bhi</p>
             <p className="font-semibold text-lg text-slate-800">Company Climate Dashboard</p>
           </div>
         </div>
       </div>
       <nav className="space-y-1">
         {sidebarItems.map((item) => (
-          <button key={item} className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">
-            <span>{item}</span>
+          <a
+            key={item.label}
+            href={item.href}
+            className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900"
+          >
+            <span>{item.label}</span>
             <span className="text-xs text-slate-400">›</span>
-          </button>
+          </a>
         ))}
       </nav>
       <div className="mt-auto rounded-xl bg-sky-50 p-3 text-xs text-sky-700">
@@ -64,12 +72,12 @@ function Sidebar() {
   );
 }
 
-function Header() {
+function Header({ onBellClick }: { onBellClick: () => void }) {
   return (
-    <header className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white px-4 py-3 shadow-sm md:flex-row md:items-center md:justify-between">
+    <header id="overview" className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white px-4 py-3 shadow-sm md:flex-row md:items-center md:justify-between">
       <div>
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Municipality Fleet</p>
-        <h1 className="text-xl font-semibold text-slate-900">City Water & Carbon Operations</h1>
+        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Company Climate Dashboard</p>
+        <h1 className="text-xl font-semibold text-slate-900">Water Management And Carbon Footprint Tracker</h1>
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative w-64">
@@ -79,8 +87,15 @@ function Header() {
           />
           <span className="absolute right-2 top-2 text-slate-400">🔍</span>
         </div>
-        <button className="rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700">🔔</button>
-        <button className="rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700">👤 Joe</button>
+        <button onClick={onBellClick} className="relative rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200 cursor-pointer">
+          🔔
+          <span className="absolute -right-1 -top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">3</span>
+        </button>
+        <button className="relative rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200 cursor-pointer">
+          ⚙️
+          <span className="absolute -right-1 -top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">3</span>
+        </button>
+        <button className="rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700 cursor-pointer">👤</button>
       </div>
     </header>
   );
@@ -107,7 +122,7 @@ function KPIs() {
 
 function MapPanel() {
   return (
-    <section className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+    <section id="leak-detection-map" className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <div>
           <h2 className="text-base font-semibold text-slate-900">Leak Detection Map</h2>
@@ -150,7 +165,7 @@ function ChartsPanel() {
         </div>
       </div>
       <div className="grid gap-3">
-        <div className="rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
+        <div id="carbon-emissions" className="rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
           <div className="mb-2 flex items-center justify-between">
             <div>
               <h3 className="text-sm font-semibold text-slate-900">Carbon Emissions</h3>
@@ -198,16 +213,19 @@ function ChartsPanel() {
 
 function AIOptimizationPanel() {
   return (
-    <section className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+    <section id="ai-optimization" className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
       <div className="mb-2 flex items-center justify-between">
         <div>
           <h3 className="text-sm font-semibold text-slate-900">AI Optimization Recommendations</h3>
           <p className="text-xs text-slate-500">Actions to lower consumption and emissions</p>
         </div>
-        <button className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">Refresh</button>
+        <button className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 cursor-pointer">Refresh</button>
       </div>
       <ul className="space-y-2 text-sm text-slate-700">
         <li className="rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2">• Shift server workload to night windows to reduce cooling water usage by 18%.</li>
+        <li className="rounded-xl border border-sky-100 bg-sky-50 px-3 py-2">• Use recycled wastewater from Plant A to support industrial zone 3.</li>
+        <li className="rounded-xl border border-yellow-100 bg-yellow-50 px-3 py-2">• Schedule a leak inspection on pipeline corridor C before Friday.</li>
+          <li className="rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2">• Shift server workload to night windows to reduce cooling water usage by 18%.</li>
         <li className="rounded-xl border border-sky-100 bg-sky-50 px-3 py-2">• Use recycled wastewater from Plant A to support industrial zone 3.</li>
         <li className="rounded-xl border border-yellow-100 bg-yellow-50 px-3 py-2">• Schedule a leak inspection on pipeline corridor C before Friday.</li>
       </ul>
@@ -242,7 +260,7 @@ function AlertsPanel() {
 
 function MarketplaceWidget() {
   return (
-    <section className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+    <section id="wastewater-marketplace" className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
       <div className="mb-2 flex items-center justify-between">
         <div>
           <h3 className="text-sm font-semibold text-slate-900">Wastewater Marketplace</h3>
@@ -264,18 +282,49 @@ function MarketplaceWidget() {
           <div className="mt-1 font-semibold text-slate-900">{marketplace.prices}</div>
         </div>
       </div>
-      <button className="mt-3 w-full rounded-xl bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-sky-700">Initiate Water Trade</button>
+      <button className="mt-3 w-full rounded-xl bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-sky-700 cursor-pointer">Initiate Water Trade</button>
     </section>
   );
 }
 
 export default function Home() {
+  const [showNotifications, setShowNotifications] = useState(false);
+
   return (
     <div className="min-h-screen bg-slate-50 p-2 text-slate-900 md:p-6">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 md:grid-cols-[260px_minmax(0,1fr)]">
         <Sidebar />
-        <div className="space-y-4 min-w-0">
-          <Header />
+        <div className="relative space-y-4 min-w-0 overflow-y-auto max-h-[calc(100vh-2rem)] p-1 scroll-smooth">
+          <Header onBellClick={() => setShowNotifications((prev) => !prev)} />
+          <div id="water-monitoring" className="rounded-2xl border border-slate-200 bg-white p-3 text-sm text-slate-700 shadow-sm">
+            <div className="font-semibold text-slate-900">Water Monitoring Summary</div>
+            <div className="text-xs text-slate-500">Sensor coverage: 96% across city zones</div>
+          </div>
+          {showNotifications && (
+            <div className="absolute right-2 top-24 z-30 w-80 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
+              <div className="mb-2 flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-semibold text-slate-900">Notifications</h3>
+                  <p className="text-xs text-slate-500">Recent system alerts</p>
+                </div>
+                <button onClick={() => setShowNotifications(false)} className="text-xs text-slate-500 hover:text-slate-900">Close</button>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="rounded-xl bg-slate-50 p-2">
+                  <div className="font-semibold text-slate-800">Leak detected on pipeline C4</div>
+                  <div className="text-xs text-slate-500">2 min ago</div>
+                </div>
+                <div className="rounded-xl bg-slate-50 p-2">
+                  <div className="font-semibold text-slate-800">Optimization recommended for Plant B</div>
+                  <div className="text-xs text-slate-500">10 min ago</div>
+                </div>
+                <div className="rounded-xl bg-slate-50 p-2">
+                  <div className="font-semibold text-slate-800">Groundwater usage high in zone 5</div>
+                  <div className="text-xs text-slate-500">18 min ago</div>
+                </div>
+              </div>
+            </div>
+          )}
           <KPIs />
           <div className="grid gap-3 xl:grid-cols-[2fr_1fr]">
             <MapPanel />
@@ -286,6 +335,7 @@ export default function Home() {
           </div>
           <ChartsPanel />
           <MarketplaceWidget />
+          <div id="reports" className="pt-2 text-xs text-slate-500">   <button className="mt-3 w-50 rounded-xl bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-sky-700 cursor-pointer">Generate and get report via email</button></div>
         </div>
       </div>
     </div>
